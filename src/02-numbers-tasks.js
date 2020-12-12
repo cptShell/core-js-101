@@ -110,17 +110,7 @@ function getLinearEquationRoot(a, b) {
  *   (0,1) (1,2)     => 0
  */
 function getAngleBetweenVectors(x1, y1, x2, y2) {
-  let result;
-
-  if ((x1 > x2 && y1 < y2) && (x1 > x2 && y1 > y2)) {
-    result = Math.PI / 2;
-  } else if (x1 < x2 && y1 > y2) {
-    result = Math.PI;
-  } else if (x1 < x2 && y1 < y2) {
-    result = 0;
-  }
-
-  return result;
+  return `${Math.acos((x1 * x2) + (y1 * y2) / (Math.sqrt((x1 * x1) + (y1 * y1)) * Math.sqrt((x1 * x1) + (y1 * y1))))}`;
 }
 
 /**

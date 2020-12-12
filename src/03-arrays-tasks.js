@@ -555,7 +555,19 @@ function distinct(arr) {
  *   }
  */
 function group(array, keySelector, valueSelector) {
-  throw new Error('Not implemented');
+  console.log(keySelector, valueSelector);
+  const map = new Map();
+  function add(elem) {
+    if (!map.has(keySelector(elem))) {
+      map.set(keySelector(elem), [valueSelector(elem)]);
+    } else {
+      map.get(keySelector(elem)).push(valueSelector(elem));
+    }
+  }
+
+  array.map((v) => add(v));
+
+  return map;
 }
 
 
@@ -573,9 +585,8 @@ function group(array, keySelector, valueSelector) {
  *   ['one','two','three'], x=>x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
 function selectMany(arr, childrenSelector) {
-  return arr;
+  return arr.reduce((acc, b) => acc.concat(childrenSelector(b)), []);
 }
-
 
 /**
  * Returns an element from the multidimentional array by the specified indexes.
@@ -589,10 +600,9 @@ function selectMany(arr, childrenSelector) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
+function getElementByIndexes(arr, indexes) {
+  return indexes.reduce((res, v) => res[v], arr);
 }
-
 
 /**
  * Swaps the head and tail of the specified array:
@@ -612,10 +622,17 @@ function getElementByIndexes(/* arr, indexes */) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8 ]   =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
-}
+function swapHeadAndTail(arr) {
+  const predicate = Math.floor(arr.length / 2);
+  const mid = arr.length % 2;
+  const start = arr.slice(0, predicate);
+  const end = arr.slice(predicate + mid);
 
+  arr.splice(0, predicate, ...end);
+  arr.splice(predicate + mid, predicate, ...start);
+
+  return arr;
+}
 
 module.exports = {
   findElement,

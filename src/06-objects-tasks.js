@@ -20,8 +20,13 @@
  *    console.log(r.height);      // => 20
  *    console.log(r.getArea());   // => 200
  */
-function Rectangle(/* width, height */) {
-  throw new Error('Not implemented');
+function Rectangle(width, height) {
+  const res = {};
+  res.width = width;
+  res.height = height;
+  res.getArea = () => res.width * res.height;
+
+  return res;
 }
 
 
@@ -35,8 +40,8 @@ function Rectangle(/* width, height */) {
  *    [1,2,3]   =>  '[1,2,3]'
  *    { width: 10, height : 20 } => '{"height":10,"width":20}'
  */
-function getJSON(/* obj */) {
-  throw new Error('Not implemented');
+function getJSON(obj) {
+  return JSON.stringify(obj);
 }
 
 
@@ -51,8 +56,8 @@ function getJSON(/* obj */) {
  *    const r = fromJSON(Circle.prototype, '{"radius":10}');
  *
  */
-function fromJSON(/* proto, json */) {
-  throw new Error('Not implemented');
+function fromJSON(proto, json) {
+  return Object.setPrototypeOf(JSON.parse(json), proto);
 }
 
 
@@ -111,35 +116,48 @@ function fromJSON(/* proto, json */) {
  */
 
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
+  elem: '',
+  order: 0,
+
+  element(value) {
+    const obj = { ...this, elem: `${this.elem}${value}` };
+    return obj;
   },
 
-  id(/* value */) {
-    throw new Error('Not implemented');
+  id(value) {
+    const obj = { ...this, elem: `${this.elem}#${value}` };
+    return obj;
   },
 
-  class(/* value */) {
-    throw new Error('Not implemented');
+  class(value) {
+    const obj = { ...this, elem: `${this.elem}.${value}` };
+    return obj;
   },
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
+  attr(value) {
+    const obj = { ...this, elem: `${this.elem}[${value}]` };
+    return obj;
   },
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
+  pseudoClass(value) {
+    const obj = { ...this, elem: `${this.elem}:${value}` };
+    return obj;
   },
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
+  pseudoElement(value) {
+    const obj = { ...this, elem: `${this.elem}::${value}` };
+    return obj;
   },
 
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
+  combine(selector1, combinator, selector2) {
+    const obj = { ...this, elem: `${selector1.stringify()} ${combinator} ${selector2.stringify()}` };
+    return obj;
+  },
+
+  stringify() {
+    return this.elem;
   },
 };
-
 
 module.exports = {
   Rectangle,
