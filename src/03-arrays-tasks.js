@@ -555,7 +555,6 @@ function distinct(arr) {
  *   }
  */
 function group(array, keySelector, valueSelector) {
-  console.log(keySelector, valueSelector);
   const map = new Map();
   function add(elem) {
     if (!map.has(keySelector(elem))) {
